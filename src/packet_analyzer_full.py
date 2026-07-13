@@ -196,7 +196,7 @@ def display_packet(protocol, SourceIP, DestinationIP, Length, Capturetime,Source
      print("Time: ",Capturetime) 
      print("=" * 50)    
        
-with open("captured_packets.csv","w",newline="") as myfile:
+with open("output/captured_packets.csv","w",newline="") as myfile:
    writer = csv.writer(myfile)
 
    writer.writerow([
@@ -254,12 +254,16 @@ with open("captured_packets.csv","w",newline="") as myfile:
        Length,
        Capturetime
    ])     
+     
+def protocol_graph(tcp_count,udp_count,icmp_count,arp_count):
    labels = ["TCP","UDP","ICMP","ARP"]
    values = [tcp_count,udp_count,icmp_count,arp_count]
    plt.bar(labels,values)
    plt.title("Protocol Distribution")
    plt.xlabel("Protocols")
-   plt.ylabel("Percentage")
+   plt.ylabel("Number of Packets")
+   plt.savefig("output/protocol_distribution.png")
+   plt.show()
    
 display_distsize(total_count)
 
@@ -269,4 +273,5 @@ filter_by_protocol()
 
 ips_ports()
 
-plt.show()
+protocol_graph(tcp_count,udp_count,icmp_count,arp_count)
+
